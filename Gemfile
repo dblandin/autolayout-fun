@@ -7,6 +7,7 @@ gem 'routable',             '~> 0.2'
 gem 'motion-logger',        '~> 0.1.3'
 gem 'motion-blitz',         '~> 0.0.1'
 gem 'dotenv',               '~> 0.7.0'
+gem 'motion-layout',        '~> 0.0.1'
 
 group :development do
   gem 'sugarcube',         '~> 0.20.20', :require => false

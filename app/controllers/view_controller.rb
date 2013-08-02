@@ -8,41 +8,43 @@ class ViewController < UIViewController
     subtop = v('#6BC36F')
     bottom = v('#4C9BD8')
 
-    view << top << subtop << bottom
-
-    views_dict = { 'top' => top, 'subtop' => subtop, 'bottom' => bottom }
-
     subleft   = v('#8F67B5')
     submiddle = v('#98A4A5')
     subright  = v('#D9823A')
 
-    subtop << subleft << submiddle << subright
+    circle = v('#FF4632').tap do |circle|
+      circle.layer.cornerRadius = 25.0
+    end
 
-    subtop_dict = { 'left' => subleft, 'center' => submiddle, 'right' => subright }
+    name = v('#0082BB')
 
-    subtop.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
-      'H:|-2-[left]-5-[center]-5-[right]-2-|',
-      options: 0,
-      metrics: nil,
-      views: subtop_dict))
+    Motion::Layout.new do |layout|
+      layout.view       subtop
+      layout.subviews   'left' => subleft, 'center' => submiddle, 'right' => subright
+      layout.vertical   '|-2-[left]-2-|'
+      layout.vertical   '|-2-[center]-2-|'
+      layout.vertical   '|-2-[right]-2-|'
+      layout.horizontal '|-2-[left]-5-[center]-5-[right]-2-|'
+    end
 
-    subtop.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
-      'V:|-2-[left]-2-|',
-      options: 0,
-      metrics: nil,
-      views: subtop_dict))
+    Motion::Layout.new do |layout|
+      layout.view top
+      layout.subviews 'circle' => circle, 'name' => name
+      layout.horizontal '|-[name]-[circle(50@500)]-|'
+      layout.vertical '|-[circle(50@500)]'
+      layout.vertical '|-[name(50@500)]'
+    end
 
-    subtop.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
-      'V:|-2-[center]-2-|',
-      options: 0,
-      metrics: nil,
-      views: subtop_dict))
+    Motion::Layout.new do |layout|
+      layout.view       view
+      layout.subviews   'top' => top, 'subtop' => subtop, 'bottom' => bottom
+      layout.horizontal '|[top]|'
+      layout.horizontal '|[subtop]|'
+      layout.horizontal '|[bottom]|'
+      layout.vertical   '|[top(100@1000)][subtop(50@1000)][bottom]|'
+    end
 
-    subtop.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
-      'V:|-2-[right]-2-|',
-      options: 0,
-      metrics: nil,
-      views: subtop_dict))
+    views_dict = { 'top' => top, 'subtop' => subtop, 'bottom' => bottom }
 
     subtop.addConstraint(NSLayoutConstraint.constraintWithItem(
       submiddle,
@@ -61,53 +63,10 @@ class ViewController < UIViewController
       attribute: NSLayoutAttributeWidth,
       multiplier: 1.0,
       constant: 1.0))
-
-    view.addConstraint(NSLayoutConstraint.constraintWithItem(
-      subright,
-      attribute: NSLayoutAttributeCenterY,
-      relatedBy: NSLayoutRelationEqual,
-      toItem: subleft,
-      attribute: NSLayoutAttributeCenterY,
-      multiplier: 1.0,
-      constant: 0))
-
-    view.addConstraint(NSLayoutConstraint.constraintWithItem(
-      submiddle,
-      attribute: NSLayoutAttributeCenterY,
-      relatedBy: NSLayoutRelationEqual,
-      toItem: subleft,
-      attribute: NSLayoutAttributeCenterY,
-      multiplier: 1.0,
-      constant: 0))
-
-    view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
-      'H:|[top]|',
-      options: 0,
-      metrics: nil,
-      views: views_dict))
-
-    view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
-      'H:|[subtop]|',
-      options: 0,
-      metrics: nil,
-      views: views_dict))
-
-    view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
-      'H:|[bottom]|',
-      options: 0,
-      metrics: nil,
-      views: views_dict))
-
-    view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
-      'V:|[top(100@1000)][subtop(50@1000)][bottom]|',
-      options: 0,
-      metrics: nil,
-      views: views_dict))
   end
 
   def v(hex)
     UIView.alloc.init.tap do |top|
-      top.translatesAutoresizingMaskIntoConstraints = false
       top.backgroundColor = hex.to_color
     end
   end
