@@ -1,0 +1,20 @@
+# Build
+build
+bin/
+.sass-cache/
+.dat*
+app/testflight_launcher.rb
+
+# Rubygems
+vendor/ruby
+vendor/Pods
+.bundle
+
+# OSX
+.DS_Store
+
+# Development
+.repl_history
+tags
+TODO*
+.env
