@@ -9,7 +9,7 @@ class AppDelegate
     initialize_logging
     initialize_main_controller
 
-    Navigator.shared.open('table')
+    Navigator.shared.open('input')
 
     true
   end
@@ -55,6 +55,7 @@ class AppDelegate
       navigator.map do |router|
         router.map('main', ViewController, shared: true)
         router.map('table', TableViewController, shared: true)
+        router.map('input', InputController, shared: true)
       end
     end
   end

@@ -9,6 +9,7 @@ elsif ARGV.join(' ') =~ /archive/
   Bundler.require :default
 else
   Bundler.require :default, :development
+  require 'sugarcube'
   require 'sugarcube-repl'
 end
 
